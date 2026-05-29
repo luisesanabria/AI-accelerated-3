@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import EventIcon from '@mui/icons-material/Event';
 
-function TaskList({ onEdit }) {
+function TaskList({ onEdit, onPriorityChange }) {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -61,6 +61,16 @@ function TaskList({ onEdit }) {
       fetchTasks();
     } catch (err) {
       setError('Failed to delete task');
+    }
+  };
+
+  const handlePriorityChange = async (task, priority) => {
+    if (task.priority === priority) return;
+    try {
+      await onPriorityChange(task, priority);
+      fetchTasks();
+    } catch (err) {
+      setError('Failed to update task priority');
     }
   };
 
@@ -203,6 +213,20 @@ function TaskList({ onEdit }) {
                 gap: 1
               }}
             >
+              <Box sx={{ display: 'flex', gap: 0.5 }}>
+                {['P1', 'P2', 'P3'].map((level) => (
+                  <button
+                    key={`${task.id}-${level}`}
+                    type="button"
+                    className={`priority-button ${(task.priority || 'P3') === level ? 'priority-button-selected' : ''}`}
+                    onClick={() => handlePriorityChange(task, level)}
+                    aria-label={`Set ${task.title} priority to ${level}`}
+                    aria-pressed={(task.priority || 'P3') === level}
+                  >
+                    {level}
+                  </button>
+                ))}
+              </Box>
               {task.due_date && (
                 <Chip
                   icon={<EventIcon sx={{ fontSize: 14 }} />}

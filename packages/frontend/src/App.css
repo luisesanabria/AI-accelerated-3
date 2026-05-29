@@ -92,3 +92,38 @@ li:last-child {
   color: #d32f2f;
   font-weight: bold;
 }
+
+:root {
+  --priority-unselected: #7A7A7A;
+  --priority-selected: #07F2E6;
+}
+
+.priority-button {
+  min-width: 36px;
+  height: 24px;
+  border: 1px solid var(--priority-unselected);
+  border-radius: 6px;
+  background: var(--priority-unselected);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.priority-button:hover {
+  filter: brightness(1.05);
+}
+
+.priority-button-selected {
+  background: var(--priority-selected);
+  border-color: var(--priority-selected);
+  color: #042129;
+}
+
+.priority-button:focus-visible {
+  outline: 2px solid #1976d2;
+  outline-offset: 2px;
+}
